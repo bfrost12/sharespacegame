@@ -1,0 +1,27 @@
+<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+
+<div class="ui inverted segment">
+	  <div class="ui inverted form">
+	    <div class="two fields">
+	      <div class="field">
+	        <label for="email">Email address</label>
+	        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter Email">
+	      </div>
+	      <div class="field">
+	        <label for="login-password">Password</label>
+	        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+	      </div>
+	    </div>
+	    <div class="five wide field">
+			<label for="player-name">Player Name</label>
+			<div class="ui left icon input">
+				<input type="text" placeholder="Get Creative!" ng-model="login.playername"> 
+				<i class="add user icon"></i>
+			</div>
+		</div>
+	<button type="submit" class="ui small inverted submit button">Play!</button>
+	</div>
+</div>
+</form>
+
+{{login}}

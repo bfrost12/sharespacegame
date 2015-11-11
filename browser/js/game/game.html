@@ -1,1 +1,16 @@
-<h1>{{game}}</h1>
+<card color="{{currentCard.color}}" answers="{{currentCard.answers}}" title="{{currentCard.title}}" prompt="{{currentCard.prompt}}" points="{{currentCard.points}}"></card>
+
+
+
+<pre>{{game}}</pre>
+
+<pre>{{currentCard}}</pre>
+
+<pre>{{round}}</pre>
+
+<div class="ui button" ng-click="loadNextCard()">Load Card</div>
+
+<score-board></score-board>
+
+
+<add-player game="{{game}}" addPlayer="addPlayer()"></add-player>

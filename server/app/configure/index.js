@@ -18,7 +18,7 @@ module.exports = function (app) {
     // variable inside of server/app/configure/app-variables.js
     app.use(app.getValue('log'));
 
-    //We're not using any of the authentication features right now, so shutting this off until further notice.
-/*    require('./authentication')(app);
-*/
+
+    require('./authentication')(app);
+
 };

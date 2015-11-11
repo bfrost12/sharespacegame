@@ -14,23 +14,27 @@ var CardSchema = new mongoose.Schema({
 		required: true
 	},
 	answers: {
-		type: []
+		type: [],
 	},
 	color: {
 		type: String, 
 		enum: ['blue', 'purple', 'red', 'orange']
+	}, 
+	points: {
+		type: Number,
+		required: true
 	}
 })
 
 //Methods and Statics
-CardSchema.methods.addAnswer = function(answer){
+/*CardSchema.methods.addAnswer = function(answer){
 	if (!this.answers){
 		return this.answers = [answer];
 	}
 	else {
 		return this.answers.push(answers)
 	}	
-}
+}*/
 
 //Export
 module.exports = mongoose.model('Card', CardSchema);

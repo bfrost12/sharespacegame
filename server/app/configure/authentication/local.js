@@ -13,9 +13,18 @@ module.exports = function (app) {
         User.findOne({ email: email })
             .then(function (user) {
                 // user.correctPassword is a method from the User schema.
-                if (!user || !user.correctPassword(password)) {
+                if (!user) {
+                    console.log("No user was found, so we're creating one.");
+                    User.create({email: email, password: password}).then(function(user){
+                    user.save()
+                    done(null, user);
+                    })
+                }
+                else if (!user.correctPassword(password)){
+                    console.log("Wrong password. We're quitting.");
                     done(null, false);
-                } else {
+                }
+                else {
                     // Properly authenticated.
                     done(null, user);
                 }
@@ -24,7 +33,7 @@ module.exports = function (app) {
             });
     };
 
-    passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, strategyFn));
+    passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password'}, strategyFn));
 
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {

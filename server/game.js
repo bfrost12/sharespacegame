@@ -1,21 +1,27 @@
 'use strict'
- 
-var generateGUID = function(){
+
+/* *******************************
+   *                             *
+   *       HOST FUNCTIONS        *
+   *                             *
+   ******************************* */
+
+var generateGameID = function(){
 	function S4() {
 	return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
 	}
 
 	var guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
-	return guid;
-}
+	return guid;}
 
 var Game = function(settings){
 	this.leader = settings.leader;
 	this.players = [settings.leader];
+	this.socketID = null
 	this.maxPlayers = settings.maxPlayers;
 	this.numRounds = settings.numRounds;
 	this.deck = [];
-	this.id = generateGUID();
+	this.id = generateGameID();
 	this.inProgress = false;
 	this.votesToStart = 0;
 	this.votesToQuit = 0;
@@ -58,13 +64,44 @@ var Game = function(settings){
 		}
 	}
 		return this.deck = deck;
-	}
+	}}
+
+function createNewGame(settings) { //returns a new game
+	var game = new Game(settings);
+	game.socketID = this.id;
+	this.emit('newGameCreated', game);
 }
 
-var newGame = function(settings){ //returns a new game
-	return new Game(settings);
-	}
+
+
+
+
+
+/* *****************************
+   *                           *
+   *     PLAYER FUNCTIONS      *
+   *                           *
+   ***************************** */
+
+
+
+
+
+
+
+
+
+
+/* *************************
+   *                       *
+   *      GAME LOGIC       *
+   *                       *
+   ************************* */
+
+
+
+
 
 module.exports = {
-	newGame: newGame
+	createNewGame: createNewGame
 }

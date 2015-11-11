@@ -5,15 +5,36 @@ app.config(function($stateProvider){
 		resolve: {
 			game: function(GameFactory) {
 				var testSettings = {
-					"leader": "fakePlayerID",
+					"leader": {
+						"name": "Bryce",
+						"score": 50,
+						"id": "808f-59fe-4428"
+					},
 					"maxPlayers": 5,
 					"numRounds": 4
 				}
 				return GameFactory.startNewGame(testSettings);
 			}
 		},
-		controller: function($scope, game, GameFactory) {
-			$scope.game = game;
-		}
+		controller: 'GameController'
 	})
-})
+	.state('play2', {
+		url: '/play2',
+		templateUrl: 'js/game/game2.html',
+		resolve: {
+			game: function(GameFactory) {
+				var testSettings = {
+					"leader": {
+						"name": "Bryce",
+						"score": 50,
+						"id": "808f-59fe-4428"
+					},
+					"maxPlayers": 5,
+					"numRounds": 4
+				}
+				return GameFactory.startNewGame(testSettings);
+			}
+		},
+		controller: 'GameController'
+	});
+});

@@ -2,11 +2,13 @@
 var router = require('express').Router();
 var Card = require('../../db/models/card');
 var Game = require('../../game');
+var Player = require('../../player');
+var User = require('../../db/models/user');
 
 //Game Routes: Basic route to initiate a new game and send it to the frontend
 router.post('/newGame', function(req, res){
-	var settings = req.body; //parse out the values from req.body for security purposes later...
-	var game = Game.newGame(settings);
+	var settings = req.body;
+	var game = Game.createNewGame(settings);
 	Card.find({}).then(function(cards){
 		game.addCards(cards, settings.numRounds);
 		return game;
@@ -15,6 +17,12 @@ router.post('/newGame', function(req, res){
 		res.json(game);
 	})
 });
+
+router.post('/newPlayer', function(req, res){
+	var name = req.body.name;
+	var newPlayer = Player.newPlayer(name);
+	res.json(newPlayer);
+})
 
 
 //Card Routes: Very basic routes for getting cards from the database and saving new cards we create, and deleting them.
@@ -38,6 +46,7 @@ router.delete('/cards', function(req, res){
 		res.send("Removed "+removed.result.n+" cards from the database.");
 	});
 });
+
 //delete one card
 router.delete('/card/:id', function(req, res){
 	console.log(req.params);
@@ -47,5 +56,29 @@ router.delete('/card/:id', function(req, res){
 		});
 	})
 });
+
+//add player name to user
+router.post('/playername', function(req, res){
+	User.findOneAndUpdate({_id: req.params.id},
+		{$set: {playername: req.params.playername}},
+		{new: true})
+		.then(function(user){
+			res.json(user);
+		})
+})
+
+//find all users
+router.get('/users', function(req, res){
+	User.find({}).then(function(users){
+		res.json(users);
+	})
+});
+
+//delete all users
+router.delete('/users', function(req, res){
+	User.remove({}).then(function(removed){
+		res.json(removed);
+	});
+})
 
 module.exports = router;
