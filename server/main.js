@@ -8,10 +8,14 @@ var startDb = require('./db');
 // Create a node server instance! cOoL!
 var server = require('http').createServer();
 
+//Get the chat app which we will use with our IO connection
+var chat = require('./chat.js');
+
 var createApplication = function () {
     var app = require('./app');
     server.on('request', app); // Attach the Express application.
-    require('./io')(server);   // Attach socket.io.
+    var io = require('socket.io').listen(server); // Attach socket.io.
+    io.on('connection', chat);
 };
 
 var startServer = function () {
@@ -21,7 +25,6 @@ var startServer = function () {
     server.listen(PORT, function () {
         console.log(chalk.blue('Server started on port', chalk.magenta(PORT)));
     });
-
 };
 
 startDb.then(createApplication).then(startServer).catch(function (err) {
